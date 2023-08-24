@@ -7,14 +7,14 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 declare module 'next-auth' {
     interface Session extends DefaultSession {
         user: {
-            id: Number,
+            id: string,
         } & DefaultSession['user']
     }
 }
 
 declare module 'next-auth/jwt' {
     interface JWT {
-        id: Number
+        id: string
     }
 }
 
@@ -28,7 +28,11 @@ export const authOptions: NextAuthOptions = {
         GoogleProvider({
           clientId: process.env.GOOGLE_CLIENT_ID as string,
           clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+          httpOptions: {
+            agent: new HttpsProxyAgent(process.env.HTTP_PROXY as string),
+          },
         }),
+        
       ],
     callbacks: {
         jwt: async ({token}) => {

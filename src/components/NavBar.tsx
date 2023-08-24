@@ -18,7 +18,7 @@ const NavBar = async (props: Props) => {
 
             </div>
             <div className="flex item-center">
-                <SignInButton text="Sign In" />
+                <SignInButton text={"Sign In"} />
             </div>
         </div>
     );
