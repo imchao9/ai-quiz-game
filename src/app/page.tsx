@@ -4,5 +4,5 @@ import { prisma } from '@/lib/db'
 
 export default function Home() {
  
-  return <Button>Hello World</Button>
+  // return <Button>Hello World</Button>
 }

@@ -2,6 +2,7 @@ import { getAuthSession } from "@/lib/nextauth";
 import Link from "next/link";
 import React from "react";
 import SignInButton from "./SignInButton";
+import UserAccountNav from "./UserAccountNav";
 
 type Props = {};
 
@@ -18,8 +19,7 @@ const NavBar = async (props: Props) => {
                 </Link>
                 <div className="flex item-center">
                     {session?.user ? (
-                        <h1>Welcome  {session.user.name}</h1>
-
+                        <UserAccountNav user={session.user} />
                     ) : (
                         <SignInButton text={"Sign In"} />
                     )}
@@ -30,12 +30,12 @@ const NavBar = async (props: Props) => {
 
 
 
-//   const session = await getAuthSession();
-//   if (session?.user) {
-//     return <pre>{JSON.stringify(session?.user, null ,2)}</pre>;
-//   } else {
-//     return <div>You are not log in!</div>;
-//   }
+    //   const session = await getAuthSession();
+    //   if (session?.user) {
+    //     return <pre>{JSON.stringify(session?.user, null ,2)}</pre>;
+    //   } else {
+    //     return <div>You are not log in!</div>;
+    //   }
 };
 
 export default NavBar;

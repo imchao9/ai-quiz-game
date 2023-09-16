@@ -20,27 +20,27 @@ declare module 'next-auth/jwt' {
 
 export const authOptions: NextAuthOptions = {
     session: {
-        strategy: "jwt",    
+        strategy: "jwt",
     },
     secret: process.env.NEXTAUTH_SECRET,
     adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
-          clientId: process.env.GOOGLE_CLIENT_ID as string,
-          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-          httpOptions: {
-            agent: new HttpsProxyAgent(process.env.HTTP_PROXY as string),
-          },
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+            httpOptions: {
+                agent: new HttpsProxyAgent(process.env.HTTP_PROXY as string),
+            },
         }),
-        
-      ],
+
+    ],
     callbacks: {
-        jwt: async ({token}) => {
+        jwt: async ({ token }) => {
             const db_user = await prisma.user.findUnique({
                 where: {
                     email: token?.email as string
                 }
-        });
+            });
 
             if (db_user) {
                 token.id = db_user.id;
@@ -48,12 +48,12 @@ export const authOptions: NextAuthOptions = {
 
             return token;
         },
-        session: async ({session, token}) => {
+        session: async ({ session, token }) => {
             session.user.id = token.id;
             session.user.email = token.email;
             session.user.name = token.name;
-            session.user.image = token.image as string;
-            return session; 
+            session.user.image = token.picture as string;
+            return session;
         }
     }
 }
