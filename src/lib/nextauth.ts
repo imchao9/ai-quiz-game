@@ -18,6 +18,12 @@ declare module 'next-auth/jwt' {
     }
 }
 
+let agent: any = null;
+
+if (process.env.NODE_ENV === "development") {
+    agent = new HttpsProxyAgent(process.env.HTTP_PROXY as string);
+}
+
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: "jwt",
@@ -29,7 +35,7 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
             httpOptions: {
-                agent: new HttpsProxyAgent(process.env.HTTP_PROXY as string),
+                agent: agent,
             },
         }),
 
